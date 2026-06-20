@@ -270,6 +270,9 @@ Project_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Project_SOURCE_DIR:STATIC=C:/Users/The_K/Desktop/project/funck_lib
 
+//No help, variable specified on the command line.
+VCPKG_TARGET_TRIPLET:UNINITIALIZED=x64-windows-static-release
+
 //Value Computed by CMake
 ultra_calck_lib_BINARY_DIR:STATIC=C:/Users/The_K/Desktop/project/funck_lib/build
 
