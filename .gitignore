@@ -12,10 +12,6 @@
 *.map
 *.exp
 
-#My rule
-.vscode/
-build/
-
 # Precompiled Headers
 *.gch
 *.pch
