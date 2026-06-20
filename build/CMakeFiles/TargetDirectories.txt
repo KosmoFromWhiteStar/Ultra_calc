@@ -1,2 +1,0 @@
-C:/Users/The_K/Desktop/project/funck_lib/build/CMakeFiles/edit_cache.dir
-C:/Users/The_K/Desktop/project/funck_lib/build/CMakeFiles/rebuild_cache.dir
