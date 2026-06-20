@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 4.0)
+project("ultra_calck_lib")
+
+SET(HEADERS )
+add_library(${PROJECT_NAME} )
