@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 4.0)
 project("ultra_calck_lib")
 
-add_library(${PROJECT_NAME} HEADER.H HEADER.C)
-add_executable("calck" main.c )
+add_library(${PROJECT_NAME} Ultra_calc.h Ultra_calc.c)
+add_executable("calck" main.c)
 target_link_libraries("calck" PUBLIC ${PROJECT_NAME})

@@ -1,4 +1,4 @@
-#include "HEADER.H"
+#include "Ultra_calc.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -72,7 +72,7 @@ int range_function(const char* str, RANGE* par){
             str_line[c] = str[i];
             c++;
         }else {
-            flag >> 1;
+            flag >>= 1;
             flag++;
             if(flag && c > 1){
                 //save point;
