@@ -2,27 +2,26 @@
 #define __HEADER_H__
 
 #define NAME XX
-#define size_t long long int
 
-typedef struct DIA{
+typedef struct{
     double start_par;
     double end_par;
     double step;
 }RANGE;
 
-typedef struct HEADER
+typedef struct
 {
     int(**foo)(double, double, double);
-    size_t count_f;
+    int count_f;
     double** par;
-    size_t len;
+    int len;
 } NAME;
 
 
 double from_str_to_double(const char* str);
 int range_function(const char* str, RANGE* par);
 int init_function(const char* str);
-int polk_notation(const char* str, NAME* calc);
+int to_polk_notation(const char* str, char** _output);
 
 
 

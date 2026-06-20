@@ -1,6 +1,6 @@
 #include "HEADER.H"
-#include "stdlib.h"
-
+#include <stdlib.h>
+#include <stdio.h>
 
 double from_str_to_double(const char* str){
     int dec = 0;
@@ -27,16 +27,44 @@ double from_str_to_double(const char* str){
     return result;
 }
 
+int priorety (char _operator){
+    int res = 0;
+    switch (_operator)
+    {
+    case '+':
+    case '-': res = 0; break;
+    case '*':
+    case '/': res = 1; break;
+    case 's': //sin
+    case 'a': //argsin
+    case 't': //tan
+    case 'g': //ctan
+    case 'l': //LOG10
+    case 'c': res = 2; break; //cos
+    case '^': res = 3; break; 
+    case '(':
+    case ')': res = 4; break; 
+    default:
+        res = -1;
+        break;
+    }
+    return res;
+}
+
+char find_foo(const char* str){
+   char res = 0;
+   
+   return res;
+}
+
 ///
-//Deteminat rang of one parametr
+//Determinate rang of one parametr
 ///
 int range_function(const char* str, RANGE* par){
     char flag = 0;
     char str_line[1024]; 
     int c = 0;
-    double first = 0;
-    double second = 0;
-    double* ptr = &first;
+    double* ptr = &(par->start_par);
 
     for(int i = 0; ; ++i){
         if(str[i] == ' ') continue;
@@ -51,7 +79,7 @@ int range_function(const char* str, RANGE* par){
                 *ptr = from_str_to_double(str_line);
                 for(int i = 0; i < c+1; ++i) str_line[i] = 0;
                 c = 0;
-                ptr = &second;
+                ptr = &(par->end_par);
             }
         }
         if(str[i] == ','){
@@ -59,8 +87,6 @@ int range_function(const char* str, RANGE* par){
         }
         if(str[i] == '\0') break;
     }
-    par->start_par = first;
-    par->end_par = second;
     return 0;
 }
 
@@ -68,8 +94,8 @@ int init_function(const char* str){
     if(str[0] != 'f') return -1;
     if(str[1] != '(') return -1;
     RANGE rang;
-    char* str_parametrs = calloc(1024, sizeof(char));
-    size_t c = 0;
+    char* str_parametrs = (char*) (char*)calloc(1024, sizeof(char));
+    int c = 0;
     for(int i = 2; str[i] != '\0'; ++i){
         if(str[i] != ';' || str[i] != ')') str_parametrs[c] = str[i];
         else {
@@ -79,7 +105,7 @@ int init_function(const char* str){
         }
         if(str[i] == '='){
             ++i;
-            polk_notation(&(str[i]), NULL);
+            to_polk_notation(&(str[i]), NULL);
             break;
         }
         
@@ -88,21 +114,46 @@ int init_function(const char* str){
     return 0;
 }
 
-int polk_notation(const char* str, NAME* calc){
-    char* output = calloc(1024, 1);
+int to_polk_notation(const char* str, char** _output){
+    char* output = (char*)calloc(1024, 1);
     int c_out = 0;
-    char* stack = calloc(1024, 1);
+    char* stack = (char*)calloc(1024, 1);
     int s_out = 0;
+    char* math_foo = (char*)calloc(20, 1);
+    int math_c = 0;
     for(int i = 0; str[i] != '\0'; ++i){
-        if(str[i] >= '0' && str[i] <= '9'){
+        if((str[i] >= '0' && str[i] <= '9') || (str[i]  == 'x')){
             output[c_out] = str[i];
             c_out++;
+        }else if((str[i] >= 'a' && str[i] <= 'z')){
+            math_foo[math_c] = str[i];
+            math_c++;
         }else{
-            
-            stack[s_out] = str[i];
+            char temp = str[i];
+            if(math_c != 0){
+                temp = find_foo(math_foo);
+            }
+
+            for(; priorety(temp) <= priorety(stack[s_out - 1]); --s_out){
+                output[c_out] = stack[s_out - 1];
+                stack[s_out - 1] = 0;
+                (c_out)++;
+            }
+            output[c_out] = ' ';
+            c_out++;
+
+            stack[s_out] = temp;
             s_out++;
         }
     }
-    free(output);
+
+    for(int i = s_out-1; i >= 0; --i){
+        output[c_out] = stack[i];
+        c_out++;
+    }
+    
+    *(_output) = output;
+    free(stack);
+    free(math_foo);
     return 0;
 }
